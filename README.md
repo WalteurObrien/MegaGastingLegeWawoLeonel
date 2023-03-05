@@ -5,6 +5,7 @@
 `docker compose run --rm php symfony check:requirements` # Check requirements
 
 ## Installation
+`docker-compose up -d --build`
 ### Le projet est automatiquement créé s'il n'y a pas de composer.json 
 `docker compose run --rm php composer --help` # Création du projet au premier lancement
 `sudo chown -R test:test .` # Change owner of the project directory
