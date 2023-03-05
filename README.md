@@ -12,6 +12,7 @@
 Visiter : https://localhost
 
 ## bundles à installer : 
+- `docker compose run --rm php composer require --dev symfony/profiler-pack` # Pour le front
 - `docker compose run --rm php composer require symfony/maker-bundle --dev`   # Création de code
 - `docker compose run --rm php composer require symfony/twig-bundle`  # Twig
 - `docker compose run --rm php composer require symfony/orm-pack`  # Doctrine
