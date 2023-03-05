@@ -48,7 +48,3 @@ Voici les chaînes de connection SQL Server :
 #DATABASE_URL=sqlsrv://sa:SQLServerPasw0rd@sqlserver-db/Commandes
 #Si connexion à la BDD sur l'host
 #DATABASE_URL=sqlsrv://sa:sql2019@host.docker.internal/Commande
-
-## Credits
-
-Created by [Kévin Dunglas](https://dunglas.fr), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
