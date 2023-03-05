@@ -20,7 +20,6 @@ RUN xcaddy build \
 
 # Prod image
 FROM php:8.2-fpm-alpine AS app_php
-
 # Allow to use development versions of Symfony
 ARG STABILITY="stable"
 ENV STABILITY ${STABILITY}
@@ -136,6 +135,8 @@ RUN chmod uga+x /usr/bin/install-php-extensions \
     && sync \
     && install-php-extensions bcmath ds exif intl pcntl pdo_sqlsrv sqlsrv
 
+# Symfony CLI
+RUN wget https://get.symfony.com/cli/installer -O - | bash && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 
 
@@ -158,7 +159,6 @@ RUN rm -f .env.local.php
 
 # Caddy image
 FROM caddy:2.6-alpine AS app_caddy
-
 WORKDIR /srv/app
 
 COPY --from=app_caddy_builder --link /usr/bin/caddy /usr/bin/caddy
