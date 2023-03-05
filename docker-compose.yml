@@ -71,7 +71,12 @@ services:
 #    volumes:
 #      - ./docker/sqlserver_data:/var/lib/postgresql/data:rw
 #        
-
+  encore:
+    command: [ "yarn", "dev-server", "--host=0.0.0.0" ]
+    container_name: encore
+    image: node:18-alpine
+    volumes:
+      - .:/srv/app
 volumes:
   php_socket:
   caddy_data:
