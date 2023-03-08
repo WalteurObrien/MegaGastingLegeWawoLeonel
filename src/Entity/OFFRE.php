@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OFFRERepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,6 +48,25 @@ class OFFRE
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $AgeMin = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $OFFRE = null;
+
+    #[ORM\OneToMany(mappedBy: 'oFFRE', targetEntity: TYPECONTRAT::class)]
+    private Collection $TYPECONTRAT;
+
+    #[ORM\OneToMany(mappedBy: 'relation', targetEntity: NIVEAU::class)]
+    private Collection $nIVEAUs;
+
+    #[ORM\ManyToMany(targetEntity: CIVILITE::class, mappedBy: 'OFFRE')]
+    private Collection $CIVILITE;
+
+    public function __construct()
+    {
+        $this->TYPECONTRAT = new ArrayCollection();
+        $this->nIVEAUs = new ArrayCollection();
+        $this->CIVILITE = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -180,6 +201,105 @@ class OFFRE
     public function setAgeMin(int $AgeMin): self
     {
         $this->AgeMin = $AgeMin;
+
+        return $this;
+    }
+
+    public function getOFFRE(): ?string
+    {
+        return $this->OFFRE;
+    }
+
+    public function setOFFRE(string $OFFRE): self
+    {
+        $this->OFFRE = $OFFRE;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TYPECONTRAT>
+     */
+    public function getTYPECONTRAT(): Collection
+    {
+        return $this->TYPECONTRAT;
+    }
+
+    public function addTYPECONTRAT(TYPECONTRAT $tYPECONTRAT): self
+    {
+        if (!$this->TYPECONTRAT->contains($tYPECONTRAT)) {
+            $this->TYPECONTRAT->add($tYPECONTRAT);
+            $tYPECONTRAT->setOFFRE($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTYPECONTRAT(TYPECONTRAT $tYPECONTRAT): self
+    {
+        if ($this->TYPECONTRAT->removeElement($tYPECONTRAT)) {
+            // set the owning side to null (unless already changed)
+            if ($tYPECONTRAT->getOFFRE() === $this) {
+                $tYPECONTRAT->setOFFRE(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NIVEAU>
+     */
+    public function getNIVEAUs(): Collection
+    {
+        return $this->nIVEAUs;
+    }
+
+    public function addNIVEAUs(NIVEAU $nIVEAUs): self
+    {
+        if (!$this->nIVEAUs->contains($nIVEAUs)) {
+            $this->nIVEAUs->add($nIVEAUs);
+            $nIVEAUs->setRelation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNIVEAUs(NIVEAU $nIVEAUs): self
+    {
+        if ($this->nIVEAUs->removeElement($nIVEAUs)) {
+            // set the owning side to null (unless already changed)
+            if ($nIVEAUs->getRelation() === $this) {
+                $nIVEAUs->setRelation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CIVILITE>
+     */
+    public function getCIVILITE(): Collection
+    {
+        return $this->CIVILITE;
+    }
+
+    public function addCIVILITE(CIVILITE $cIVILITE): self
+    {
+        if (!$this->CIVILITE->contains($cIVILITE)) {
+            $this->CIVILITE->add($cIVILITE);
+            $cIVILITE->addOFFRE($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCIVILITE(CIVILITE $cIVILITE): self
+    {
+        if ($this->CIVILITE->removeElement($cIVILITE)) {
+            $cIVILITE->removeOFFRE($this);
+        }
 
         return $this;
     }
